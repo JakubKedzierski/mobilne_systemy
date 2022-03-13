@@ -1,5 +1,8 @@
 # Compiled class file
 *.class
+/.venv
+/backend/__pycache__
+/.vscode
 
 # Log file
 *.log
