@@ -2,4 +2,4 @@ from flask import Blueprint
 
 bp = Blueprint('api', __name__)
 
-# import db models
+from backend.api import users, errors, offers, contracts, tokens
