@@ -1,9 +1,10 @@
-from backend.api import bp
+from . import bp
 from flask import request
 
 
 @bp.route('/register', methods=['POST'])
 def create_user():
+        #get_or_404()
     data = request.get_json() or {}
     pass
 

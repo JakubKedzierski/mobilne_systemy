@@ -1,11 +1,16 @@
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-from config import Config
 from flask import Flask
-
+import os
 
 db = SQLAlchemy()
 migrate = Migrate()
+
+class Config(object):
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'app.db')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 def create_app(config_class=Config):
@@ -15,12 +20,8 @@ def create_app(config_class=Config):
     db.init_app(app)
     migrate.init_app(app, db)
 
-    from api import bp as api_bp
+    from backend.api import bp as api_bp
     app.register_blueprint(api_bp, url_prefix='/api')
-
-    @app.route('/')
-    def hello_world():
-        return "Hello World"
 
     return app
 

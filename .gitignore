@@ -26,3 +26,4 @@ run_cmd.txt
 hs_err_pid*
 backend/app.db
 backend/app.db-journal
+migrations/versions/94726dd8e258_.py
