@@ -3,6 +3,7 @@ from .user_errors import ValueNotSet
 from datetime import date
 import json
 from dateutil import parser
+from werkzeug.security import generate_password_hash
 
 class User(db.Model):
     __tablename__ = 'user'
@@ -31,8 +32,8 @@ class User(db.Model):
         self.second_name = data['secondName']
         self.email = data['email']
 
-        # validate and hash password
-        self.password = data['password']
+        # validate password
+        self.password = generate_password_hash(data['password'], method='sha256') 
         self.phone = data['phone']
         self.address = data['address']
 
@@ -106,7 +107,7 @@ class Offer(db.Model):
     def to_dict(self):
         return_dict = {
             "offerId" : self.id,
-            "user" : "", #self.user.to_dict()
+            "user" : self.user.to_dict(),
             "name" : self.name,
             "price" : self.price,
             "publishDate" : self.publish_date.isoformat(),

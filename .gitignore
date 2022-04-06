@@ -27,3 +27,4 @@ hs_err_pid*
 backend/app.db
 backend/app.db-journal
 migrations/versions/*
+flask_session/*

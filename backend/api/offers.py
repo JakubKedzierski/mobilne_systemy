@@ -48,10 +48,9 @@ def post_offer():
     return resp
 
 
-@bp.route('/offers/<int:id>', methods=['GET'])
-def get_offer_by_id():
-    offer_id = request.args.get('id')
-    requested_offer = Offer.query.filter_by(id == offer_id).first()
+@bp.route('/offers/<int:offer_id>', methods=['GET'])
+def get_offer_by_id(offer_id):
+    requested_offer = Offer.query.filter_by(id=offer_id).first()
     if requested_offer is None:
         return bad_request('Offer not found in database')
 
@@ -61,10 +60,10 @@ def get_offer_by_id():
 
     return offer_dict
 
-@bp.route('/offers/<int:id>', methods=['DELETE'])
-def delete_offer_by_id(id):
+@bp.route('/offers/<int:offer_id>', methods=['DELETE'])
+def delete_offer_by_id(offer_id):
     try:
-        requested_offer = Offer.query.filter_by(id=id).first()
+        requested_offer = Offer.query.filter_by(id=offer_id).first()
         db.session.delete(requested_offer)
         db.session.commit()
     except:
