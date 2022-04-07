@@ -24,7 +24,8 @@ def get_offers():
     return offers_dict
 
 @bp.route('/offers', methods=['POST'])
-def post_offer():
+@token_required
+def post_offer(current_user):
     data = request.get_json() or None
     if data is None:
         return bad_request('Lack of offer data')
@@ -35,9 +36,7 @@ def post_offer():
     offer = Offer()
     try:
         offer.from_dict(data['offer'])
-
-    # TO DO - add proper user
-        offer.user_id = 1 
+        offer.user_id = current_user.id 
         db.session.add(offer)
         db.session.commit()
     except ValueNotSet as error:
