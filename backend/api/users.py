@@ -30,7 +30,7 @@ def create_user():
     return resp
 
 
-@bp.route('/login', methods=['GET'])
+@bp.route('/login', methods=['GET', 'POST'])
 def login_user():
     data = request.get_json() or {}
 
@@ -55,7 +55,6 @@ def login_user():
 
     token = jwt.encode({'firstName' : requested_user.first_name, 'secondName' : requested_user.second_name, 'email':requested_user.email,
              'phone':requested_user.phone, 'address':requested_user.address}, main_app.config['SECRET_KEY'], "HS256")
-    session[requested_user.id] = token 
 
     resp = jsonify(succes=True, token=token)
     return resp

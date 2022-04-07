@@ -4,6 +4,7 @@ from .errors import bad_request
 from ..app import db
 from ..models import Offer
 from ..user_errors import ValueNotSet
+from .tokens import token_required
 
 @bp.route('/offers', methods=['GET'])
 def get_offers():
@@ -61,13 +62,19 @@ def get_offer_by_id(offer_id):
     return offer_dict
 
 @bp.route('/offers/<int:offer_id>', methods=['DELETE'])
-def delete_offer_by_id(offer_id):
+@token_required
+def delete_offer_by_id(current_user, offer_id):
     try:
         requested_offer = Offer.query.filter_by(id=offer_id).first()
-        db.session.delete(requested_offer)
-        db.session.commit()
+        if requested_offer is None:
+            return bad_request('Offer not found in database')
+        if requested_offer in current_user.offers:
+            db.session.delete(requested_offer)
+            db.session.commit()
+        else:
+            return bad_request('User not allowed to delete this offer')
     except:
-        return bad_request('Offer not found in database or database error')
+        return bad_request('Database error')
     
     resp = jsonify(success=True)
     return resp
