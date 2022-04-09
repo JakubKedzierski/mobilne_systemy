@@ -1,9 +1,9 @@
 # Compiled class file
 *.class
 /.venv
-/backend/__pycache__
+**/__pycache__/
 /.vscode
-
+run_cmd.txt
 # Log file
 *.log
 
@@ -24,3 +24,7 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+backend/app.db
+backend/app.db-journal
+migrations/versions/*
+flask_session/*
