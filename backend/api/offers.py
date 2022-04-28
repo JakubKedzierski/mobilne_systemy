@@ -8,20 +8,23 @@ from .tokens import token_required
 
 @bp.route('/offers', methods=['GET'])
 def get_offers():
-    requested_offers = Offer.query.all()
-    if requested_offers is None:
-        return bad_request('Offers not found in database')
+    try:
+        requested_offers = Offer.query.all()
+        if requested_offers is None:
+            return bad_request('Offers not found in database')
 
-    part_offer_dict = []
-    for offer in requested_offers:
-        part_offer_dict.append(offer.to_dict())
-     
+        part_offer_dict = []
+        for offer in requested_offers:
+            part_offer_dict.append(offer.to_dict())
+        
 
-    offers_dict = {
-        "offers" : part_offer_dict
-    }
+        offers_dict = {
+            "offers" : part_offer_dict
+        }
 
-    return offers_dict
+        return offers_dict
+    except:
+        return bad_request('Database error')
 
 @bp.route('/offers', methods=['POST'])
 @token_required
