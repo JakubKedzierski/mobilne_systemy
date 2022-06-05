@@ -124,6 +124,13 @@ class Offer(db.Model):
         return return_dict
 
 
+class FavouriteOffers(db.Model):
+    __tablename__ = 'favouriteoffers'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    fav_offer_id = db.Column(db.Integer, db.ForeignKey('offer.id'))
+    fav_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
 class Contract(db.Model):
     __tablename__ = 'contract'
 
